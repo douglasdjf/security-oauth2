@@ -22,19 +22,15 @@ public class BasicSecurityConfig  extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private BCryptPasswordEncoder  passwordEncoder;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         log.info("BasicSecurityConfig! configure AuthenticationManagerBuilder");
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        log.info("BasicSecurityConfig! passwordEncoder");
-        return new  BCryptPasswordEncoder();
-    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

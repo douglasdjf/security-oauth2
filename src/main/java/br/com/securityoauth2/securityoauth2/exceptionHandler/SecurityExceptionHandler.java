@@ -1,8 +1,10 @@
 package br.com.securityoauth2.securityoauth2.exceptionHandler;
 
+import br.com.securityoauth2.securityoauth2.domain.exception.EmailNaoValidoException;
+import br.com.securityoauth2.securityoauth2.domain.exception.UsuarioNaoEncontratoException;
+import org.hibernate.validator.internal.engine.constraintvalidation.ConstraintTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +13,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.html.Option;
+import javax.validation.ConstraintDeclarationException;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,6 +67,79 @@ public class SecurityExceptionHandler extends ResponseEntityExceptionHandler {
 
         return super.handleExceptionInternal(ex,standardError, headers, HttpStatus.BAD_REQUEST, request);
     }
+
+    @ExceptionHandler(UsuarioNaoEncontratoException.class)
+    public ResponseEntity<StandardError> objectNotFound(UsuarioNaoEncontratoException ex, HttpServletRequest request){
+        StandardError standardError = StandardError.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .path(((ServletWebRequest)request).getRequest().getRequestURL().toString())
+                .timestamp(System.currentTimeMillis())
+                .error(ex.getCause().getMessage().toString())
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
+
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<StandardError> contraintValidation(ConstraintViolationException ex, HttpServletRequest request){
+        StandardError standardError = StandardError.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .path(((ServletWebRequest)request).getRequest().getRequestURL().toString())
+                .timestamp(System.currentTimeMillis())
+                .error(ex.getCause().getMessage().toString())
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+
+    }
+
+    @ExceptionHandler(org.hibernate.exception.ConstraintViolationException.class)
+    public ResponseEntity<StandardError> contrainViolation(ConstraintViolationException ex, HttpServletRequest request){
+        StandardError standardError = StandardError.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .path(((ServletWebRequest)request).getRequest().getRequestURL().toString())
+                .timestamp(System.currentTimeMillis())
+                .error(ex.getCause().getMessage().toString())
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+
+    }
+
+    @ExceptionHandler(ConstraintDeclarationException.class)
+    public ResponseEntity<StandardError> contrainViolationTypeException(ConstraintViolationException ex, HttpServletRequest request){
+        StandardError standardError = StandardError.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .path(((ServletWebRequest)request).getRequest().getRequestURL().toString())
+                .timestamp(System.currentTimeMillis())
+                .error(ex.getCause().getMessage().toString())
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+
+    }
+
+
+    @ExceptionHandler(EmailNaoValidoException.class)
+    public ResponseEntity<StandardError> emailInvalido(EmailNaoValidoException ex, HttpServletRequest request){
+
+        StandardError standardError = StandardError.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .path(((ServletWebRequest)request).getRequest().getRequestURL().toString())
+                .timestamp(System.currentTimeMillis())
+                .error(ex.getCause().getMessage().toString())
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+
+    }
+
+
+
+
+
+
 
 
     private List<FieldMessage> criarListaFieldErros(BindingResult bindingResult){

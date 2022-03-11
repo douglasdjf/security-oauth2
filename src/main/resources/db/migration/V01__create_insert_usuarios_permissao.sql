@@ -11,7 +11,7 @@ CREATE TABLE permissao (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE usuario_permissao (
-	id_usuario BIGINT NOT NULL,
+	id_usuario BIGINT NOT NULL ,
 	id_permissao BIGINT NOT NULL,
 	PRIMARY KEY (id_usuario, id_permissao),
 	FOREIGN KEY (id_usuario) REFERENCES usuario(id),

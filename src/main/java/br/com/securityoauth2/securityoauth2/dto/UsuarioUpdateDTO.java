@@ -4,14 +4,12 @@ import br.com.securityoauth2.securityoauth2.domain.model.Permissao;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
-
 
 @Data
 @Builder
@@ -20,24 +18,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UsuarioDTO implements Serializable {
+public class UsuarioUpdateDTO implements Serializable {
 
     @NotNull
     @NotBlank
     private String nome;
 
-    @NotNull
-    @NotBlank
-    private String email;
-
-
-    @NotNull
-    @NotBlank
-    private String senha;
-
-
-    @Valid
     @NotEmpty
-    @NotNull
     private Set<PermissaoUsuarioDTO> permissao ;
 }

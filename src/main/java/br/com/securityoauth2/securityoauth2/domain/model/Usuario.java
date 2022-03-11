@@ -1,28 +1,43 @@
 package br.com.securityoauth2.securityoauth2.domain.model;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
+@Data
 @Table(name = "usuario")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @NotNull
     private String nome;
 
+    @NotBlank
+    @NotNull
     private String email;
 
+    @NotBlank
+    @NotNull
     private String senha;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -30,6 +45,18 @@ public class Usuario {
           joinColumns = @JoinColumn(name = "id_usuario"),
           inverseJoinColumns = @JoinColumn(name = "id_permissao")
     )
-    private List<Permissao> permissoes;
+    private Set<Permissao> permissao ;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(id, usuario.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
