@@ -2,6 +2,7 @@ package br.com.securityoauth2.securityoauth2.exceptionHandler;
 
 import br.com.securityoauth2.securityoauth2.domain.exception.EmailNaoValidoException;
 import br.com.securityoauth2.securityoauth2.domain.exception.UsuarioNaoEncontratoException;
+import br.com.securityoauth2.securityoauth2.resource.exception.ResourceException;
 import org.hibernate.validator.internal.engine.constraintvalidation.ConstraintTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -134,6 +135,23 @@ public class SecurityExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
 
     }
+
+    @ExceptionHandler(ResourceException.class)
+    public ResponseEntity<StandardError> resourceInvalido(ResourceException ex, HttpServletRequest request){
+
+        StandardError standardError = StandardError.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .path(((ServletWebRequest)request).getRequest().getRequestURL().toString())
+                .timestamp(System.currentTimeMillis())
+                .error(ex.getCause().getMessage().toString())
+                .message(ex.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+
+    }
+
+
+
 
 
 

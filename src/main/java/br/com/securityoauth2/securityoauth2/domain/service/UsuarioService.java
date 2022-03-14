@@ -8,6 +8,7 @@ import br.com.securityoauth2.securityoauth2.domain.repository.PermissaoRepositor
 import br.com.securityoauth2.securityoauth2.domain.repository.UsuarioRepository;
 import br.com.securityoauth2.securityoauth2.dto.UsuarioDTO;
 import br.com.securityoauth2.securityoauth2.dto.UsuarioUpdateDTO;
+import br.com.securityoauth2.securityoauth2.resource.exception.ResourceException;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -18,9 +19,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -63,9 +70,29 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public UsuarioUpdateDTO update(Long id, UsuarioUpdateDTO usuarioUpdateDTO) {
+    public UsuarioUpdateDTO update(@NotBlank  Long id,@Valid UsuarioUpdateDTO usuarioUpdateDTO) {
 
-        return usuarioUpdateDTO;
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+
+        if(!usuarioOptional.isPresent())
+            throw  new UsuarioNaoEncontratoException("Usuário não encontrado");
+
+        Usuario usuarioUpdate = modelMapper.map(usuarioUpdateDTO,Usuario.class);
+
+        BeanUtils.copyProperties(usuarioOptional.get(),usuarioUpdate,"permissao","nome");
+
+        Usuario usuarioPostUpdate =  usuarioRepository.save(usuarioUpdate);
+
+        return modelMapper.map(usuarioPostUpdate,UsuarioUpdateDTO.class);
+    }
+
+    private void preencheValidaPermissoes(Usuario usuarioUpdate){
+        Usuario usuarioOld = usuarioRepository.findById(usuarioUpdate.getId()).get();
+
+    Stream<Permissao> combinedStream = Stream.of(usuarioUpdate.getPermissao(),usuarioOld.getPermissao())
+            .flatMap(Collection::stream);
+
+      int i = 10;
     }
 
 }

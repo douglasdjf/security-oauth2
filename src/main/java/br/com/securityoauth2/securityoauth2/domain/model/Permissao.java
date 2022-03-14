@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,6 +25,10 @@ public class Permissao {
 
     @NotNull
     private String descricao;
+
+    @ManyToMany(mappedBy = "permissao")
+    private Set<Usuario> usuarios;
+
 
     @Override
     public boolean equals(Object o) {

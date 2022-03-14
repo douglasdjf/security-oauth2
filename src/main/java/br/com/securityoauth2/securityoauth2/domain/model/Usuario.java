@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -34,13 +35,15 @@ public class Usuario {
 
     @NotBlank
     @NotNull
+    @Email
     private String email;
 
     @NotBlank
     @NotNull
     private String senha;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @NotNull
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_permissao",
           joinColumns = @JoinColumn(name = "id_usuario"),
           inverseJoinColumns = @JoinColumn(name = "id_permissao")

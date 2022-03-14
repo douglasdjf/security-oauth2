@@ -20,6 +20,8 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UsuarioUpdateDTO implements Serializable {
 
+    private Long id;
+
     @NotNull
     @NotBlank
     private String nome;

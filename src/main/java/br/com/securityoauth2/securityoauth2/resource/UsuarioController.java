@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -49,8 +50,8 @@ public class UsuarioController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ROLE_ALTERAR_USUARIO')")
-    public ResponseEntity<UsuarioUpdateDTO> deleteUsuario(@PathVariable Long id,@Valid @RequestBody UsuarioUpdateDTO usuarioUpdateDTO){
-        UsuarioUpdateDTO usuarioUpdate = usuarioService.update(id,usuarioUpdateDTO);
+    public ResponseEntity<UsuarioUpdateDTO> deleteUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO usuarioUpdateDTO){
+        UsuarioUpdateDTO usuarioUpdate = usuarioService.update(id, usuarioUpdateDTO);
         return  ResponseEntity.ok(usuarioUpdate);
     }
 }
