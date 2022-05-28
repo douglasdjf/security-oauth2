@@ -1,6 +1,7 @@
 package br.com.securityoauth2.securityoauth2.domain.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -42,6 +43,7 @@ public class Usuario {
     @NotNull
     private String senha;
 
+    @JsonIgnoreProperties("usuarios")
     @NotNull
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_permissao",

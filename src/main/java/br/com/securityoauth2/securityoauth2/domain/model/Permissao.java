@@ -1,5 +1,6 @@
 package br.com.securityoauth2.securityoauth2.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -25,10 +26,6 @@ public class Permissao {
 
     @NotNull
     private String descricao;
-
-    @ManyToMany(mappedBy = "permissao")
-    private Set<Usuario> usuarios;
-
 
     @Override
     public boolean equals(Object o) {
