@@ -25,7 +25,9 @@ INSERT INTO permissao (id, descricao) values (3, 'ROLE_DELETE_USUARIO');
 INSERT INTO permissao (id, descricao) values (4, 'ROLE_ALTERAR_USUARIO');
 
 -- inserindo usuario
+-- senha admin
 INSERT INTO usuario (nome, email, senha) values ( 'Administrador', 'admin@admin.com', '$2a$10$X607ZPhQ4EgGNaYKt3n4SONjIv9zc.VMWdEuhCuba7oLAL5IvcL5.');
+-- senha maria
 INSERT INTO usuario (nome, email, senha) values ( 'Maria Silva', 'maria@maria.com', '$2a$10$Zc3w6HyuPOPXamaMhh.PQOXvDnEsadztbfi6/RyZWJDzimE8WQjaq');
 
 

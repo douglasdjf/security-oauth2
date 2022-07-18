@@ -111,32 +111,6 @@ class UsuarioTests {
 
 	}
 
-	@Test
-	void updateUsuariroAdicionadoPermissao(){
-		Usuario usuario = usuarioRepository.findById(2L).get();
-		Assert.assertNotNull(usuario);
-		usuario.getPermissao().add(Permissao.builder().id(2L).build());
-		usuario.getPermissao().add(Permissao.builder().id(3L).build());
-		Assert.assertNotNull(usuario.getPermissao());
-
-		Set<Permissao> permissoesJpa =	permissaoRepository.findAll().stream().collect(Collectors.toSet());
-
-
-		Set<Permissao> joinPermissaoComparable=	permissoesJpa.stream()
-				.filter(permiJpa ->  usuario.getPermissao().stream()
-						.anyMatch(permissao -> permissao.getId().equals(permiJpa.getId()))).collect(Collectors.toSet());
-
-
-		System.out.println("MERGE");
-		joinPermissaoComparable.forEach(permissao -> System.out.println("PermissaoId:" +permissao.getId()+ " "+"PermissaoDescricao:" + permissao.getDescricao()));
-		System.out.println(" FIM MERGE");
-
-		Usuario usuarioAlterado = usuarioRepository.save(usuario);
-		Assert.assertNotNull(usuarioAlterado);
-
-		usuarioAlterado.getPermissao().forEach(permissao -> System.out.println("PermissaoId:" +permissao.getId()+ " "+"PermissaoDescricao:" + permissao.getDescricao()));
-
-	}
 
 	@Test
 	void updateUsuariroRemoverPermissao(){

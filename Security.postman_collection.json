@@ -1,40 +1,11 @@
 {
 	"info": {
-		"_postman_id": "fa564493-6777-4e21-b2e1-a5aca63e7ec9",
+		"_postman_id": "f7ca0a51-e767-4c7c-94e5-8f6e8c36ba46",
 		"name": "Security",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4020582"
 	},
 	"item": [
-		{
-			"name": "Autenticação Oauth2",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwZXJtaXNzb2VzIjpbeyJhdXRob3JpdHkiOiJST0xFX1BFU1FVSVNBUl9DRVAifV0sInVzZXJfbmFtZSI6ImFkbWluQGFkbWluLmNvbSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJub21lIjoiQWRtaW5pc3RyYWRvciIsImV4cCI6MTYzMDIwMTg1MCwiYXV0aG9yaXRpZXMiOlsiUk9MRV9QRVNRVUlTQVJfQ0VQIl0sImp0aSI6ImQ3NGM4YzUxLTA0ZjctNDFlYi05OGQ2LWQxNjQ0ZTJjZjI0YiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiY2xpZW50X2lkIjoiYW5ndWxhciJ9.B3MvWPDSkaxzYib6cNirm2Qc4BBzwyB1zn9HNWZ7CDk",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/endereco/40800400",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"endereco",
-						"40800400"
-					]
-				}
-			},
-			"response": []
-		},
 		{
 			"name": "Autenticação Basica-Online",
 			"request": {
@@ -126,13 +97,15 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/oauth/token",
+					"raw": "http://localhost:8080/api/v1/oauth/token",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
+						"v1",
 						"oauth",
 						"token"
 					]
